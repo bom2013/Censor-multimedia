@@ -122,6 +122,7 @@
             this.acceptButton.TabIndex = 11;
             this.acceptButton.Text = "Okay";
             this.acceptButton.UseVisualStyleBackColor = true;
+            this.acceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
             // AddCensorPartForm
             // 

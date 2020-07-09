@@ -12,15 +12,27 @@ namespace Censor_multimedia
 {
     public partial class MainForm : Form
     {
-        private string srcFileName, desFileName;
+        private string srcFileName = "", desFileName = "";
+        private int fileDuration;
+        public static List<CensorPart> censorPartList = new List<CensorPart>();
         public MainForm()
         {
             InitializeComponent();
         }
 
+
         private void AddCensorPartButton_Click(object sender, EventArgs e)
         {
-
+            if (srcFileName == "")
+            {
+                MessageBox.Show("Load file before add censor part");
+            }
+            else
+            {
+                AddCensorPartForm addCensorPartForm = new AddCensorPartForm((int)WindowsMediaPlayer.currentMedia.duration);
+                addCensorPartForm.Show();
+                addCensorPartForm.FormClosing += (s, args) => this.RefreshListBox();
+            }
         }
 
         private void DesButton_Click(object sender, EventArgs e)
@@ -46,9 +58,20 @@ namespace Censor_multimedia
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                WindowsMediaPlayer.URL = openFileDialog.FileName;
                 srcFileName = openFileDialog.FileName;
+                srcTextBox.Text = srcFileName;
+                System.Threading.Thread.Sleep(1000);
+                fileDuration = (int)WindowsMediaPlayer.currentMedia.duration;
             }
-            srcTextBox.Text = srcFileName;
+        }
+        private void RefreshListBox()
+        {
+            CensorPartListBox.Items.Clear();
+            foreach (var item in censorPartList)
+            {
+                CensorPartListBox.Items.Add(item);
+            }
         }
     }
 }

@@ -52,12 +52,7 @@
     <Compile Include="AddCensorPartForm.Designer.cs">
       <DependentUpon>AddCensorPartForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CensorPart.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CensorPart.Designer.cs">
-      <DependentUpon>CensorPart.cs</DependentUpon>
-    </Compile>
+    <Compile Include="CensorPart.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,9 +63,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddCensorPartForm.resx">
       <DependentUpon>AddCensorPartForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CensorPart.resx">
-      <DependentUpon>CensorPart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -96,6 +88,25 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AxWMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
