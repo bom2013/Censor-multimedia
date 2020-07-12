@@ -32,7 +32,6 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.srcButton = new System.Windows.Forms.Button();
-            this.desButton = new System.Windows.Forms.Button();
             this.srcTextBox = new System.Windows.Forms.TextBox();
             this.desTextBox = new System.Windows.Forms.TextBox();
             this.CensorPartListBox = new System.Windows.Forms.ListBox();
@@ -59,17 +58,6 @@
             this.srcButton.UseVisualStyleBackColor = true;
             this.srcButton.Click += new System.EventHandler(this.SrcButton_Click);
             // 
-            // desButton
-            // 
-            this.desButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.desButton.Location = new System.Drawing.Point(762, 47);
-            this.desButton.Name = "desButton";
-            this.desButton.Size = new System.Drawing.Size(77, 28);
-            this.desButton.TabIndex = 1;
-            this.desButton.Text = "Browse";
-            this.desButton.UseVisualStyleBackColor = true;
-            this.desButton.Click += new System.EventHandler(this.DesButton_Click);
-            // 
             // srcTextBox
             // 
             this.srcTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -81,23 +69,26 @@
             // 
             // desTextBox
             // 
+            this.desTextBox.Enabled = false;
             this.desTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.desTextBox.Location = new System.Drawing.Point(12, 49);
             this.desTextBox.Name = "desTextBox";
             this.desTextBox.Size = new System.Drawing.Size(744, 26);
             this.desTextBox.TabIndex = 3;
-            this.desTextBox.Leave += new System.EventHandler(this.DesTextBox_Leave);
             // 
             // CensorPartListBox
             // 
+            this.CensorPartListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CensorPartListBox.FormattingEnabled = true;
+            this.CensorPartListBox.ItemHeight = 20;
             this.CensorPartListBox.Location = new System.Drawing.Point(12, 83);
             this.CensorPartListBox.Name = "CensorPartListBox";
-            this.CensorPartListBox.Size = new System.Drawing.Size(200, 355);
+            this.CensorPartListBox.Size = new System.Drawing.Size(200, 344);
             this.CensorPartListBox.TabIndex = 4;
             // 
             // addCensorPartButton
             // 
+            this.addCensorPartButton.Enabled = false;
             this.addCensorPartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addCensorPartButton.Location = new System.Drawing.Point(218, 93);
             this.addCensorPartButton.Name = "addCensorPartButton";
@@ -109,6 +100,7 @@
             // 
             // exportButton
             // 
+            this.exportButton.Enabled = false;
             this.exportButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.exportButton.Location = new System.Drawing.Point(218, 395);
             this.exportButton.Name = "exportButton";
@@ -119,6 +111,7 @@
             // 
             // removeCensorPartButton
             // 
+            this.removeCensorPartButton.Enabled = false;
             this.removeCensorPartButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeCensorPartButton.Location = new System.Drawing.Point(218, 136);
             this.removeCensorPartButton.Name = "removeCensorPartButton";
@@ -126,6 +119,7 @@
             this.removeCensorPartButton.TabIndex = 7;
             this.removeCensorPartButton.Text = "Remove";
             this.removeCensorPartButton.UseVisualStyleBackColor = true;
+            this.removeCensorPartButton.Click += new System.EventHandler(this.RemoveCensorPartButton_Click);
             // 
             // WindowsMediaPlayer
             // 
@@ -135,9 +129,11 @@
             this.WindowsMediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("WindowsMediaPlayer.OcxState")));
             this.WindowsMediaPlayer.Size = new System.Drawing.Size(562, 349);
             this.WindowsMediaPlayer.TabIndex = 8;
+            this.WindowsMediaPlayer.CurrentPlaylistChange += new AxWMPLib._WMPOCXEvents_CurrentPlaylistChangeEventHandler(this.WindowsMediaPlayer_CurrentPlaylistChange);
             // 
             // importButton
             // 
+            this.importButton.Enabled = false;
             this.importButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.importButton.Location = new System.Drawing.Point(218, 179);
             this.importButton.Name = "importButton";
@@ -159,11 +155,11 @@
             this.Controls.Add(this.CensorPartListBox);
             this.Controls.Add(this.desTextBox);
             this.Controls.Add(this.srcTextBox);
-            this.Controls.Add(this.desButton);
             this.Controls.Add(this.srcButton);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main menu";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.WindowsMediaPlayer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -175,7 +171,6 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button srcButton;
-        private System.Windows.Forms.Button desButton;
         private System.Windows.Forms.TextBox srcTextBox;
         private System.Windows.Forms.TextBox desTextBox;
         private System.Windows.Forms.ListBox CensorPartListBox;
