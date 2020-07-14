@@ -89,10 +89,18 @@ namespace Censor_multimedia
 
         private void ExportButton_Click(object sender, EventArgs e)
         {
-            groupUnification(censorPartList);
-            List<MediaPart> viewablePartsList = createOppositeList(censorPartList, fileDuration);
-            string m3u8Text = viewablePartsListToM3U8file(viewablePartsList, srcFilePath, fileName, fileDuration);
-            File.WriteAllText(desFilePath + ".m3u8", m3u8Text);
+            try
+            {
+                groupUnification(censorPartList);
+                List<MediaPart> viewablePartsList = createOppositeList(censorPartList, fileDuration);
+                string m3u8Text = viewablePartsListToM3U8file(viewablePartsList, srcFilePath, fileName, fileDuration);
+                File.WriteAllText(desFilePath + ".m3u8", m3u8Text);
+                MessageBox.Show("The file has been successfully exported and save at: " + desFilePath + ".m3u8\nEnjoy!");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error export to cns file");
+            }
         }
 
         private string getPathFromFullPath(string fullPath)
@@ -131,10 +139,17 @@ namespace Censor_multimedia
 
         private void ExportCnsButton_Click(object sender, EventArgs e)
         {
-            groupUnification(censorPartList);
-            List<MediaPart> viewablePartsList = createOppositeList(censorPartList, fileDuration);
-            string cnsText = viewablePartsListToCnsFile(viewablePartsList);
-            File.WriteAllText(desFilePath + ".cns", cnsText);
+            try
+            {
+                groupUnification(censorPartList);
+                string cnsText = censorPartsListToCnsFile(censorPartList);
+                File.WriteAllText(desFilePath + ".cns", cnsText);
+                MessageBox.Show("The file has been successfully exported and save at: " + desFilePath + ".cns");
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error export to cns file");
+            }
         }
 
         public static List<MediaPart> createOppositeList(List<MediaPart> censorPartList, int mediaLength)
@@ -152,6 +167,30 @@ namespace Censor_multimedia
             return viewablePartsList;
         }
 
+        private void ImportButton_Click(object sender, EventArgs e)
+        {
+            string[] fileText;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileText = File.ReadAllText(openFileDialog.FileName).Split('\n');
+                try
+                {
+                    for (int i = 0; i < fileText.Length; i += 2)
+                    {
+                        int[] startPointHMS = Array.ConvertAll(fileText[0].Split(':'), int.Parse);
+                        int[] stopPointHMS = Array.ConvertAll(fileText[1].Split(':'), int.Parse);
+                        censorPartList.Add(new MediaPart(MediaPart.HMStoSeconds(startPointHMS[0], startPointHMS[1], startPointHMS[2]), MediaPart.HMStoSeconds(stopPointHMS[0], stopPointHMS[1], stopPointHMS[2])));
+                    }
+                    RefreshListBox();
+                    MessageBox.Show("The cns file was successfully imported");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Error importing from file");
+                }
+            }
+        }
+
         public static string viewablePartsListToM3U8file(List<MediaPart> viewablePartsList, string filePath, string fileName, int fileDuration)
         {
             string res = "#EXTM3U\n#EXTINF:";
@@ -165,17 +204,17 @@ namespace Censor_multimedia
             return res;
         }
 
-        public static string viewablePartsListToCnsFile(List<MediaPart> viewablePartsList)
+        public static string censorPartsListToCnsFile(List<MediaPart> censorPartList)
         {
             string res = "";
-            foreach (var viewablePart in viewablePartsList)
+            foreach (var censorPart in censorPartList)
             {
-                int[] startTimeInHms = MediaPart.secondToHMS(viewablePart.getStartTimeInSecond());
-                int[] stopTimeInHms = MediaPart.secondToHMS(viewablePart.getStopTimeInSecond());
+                int[] startTimeInHms = MediaPart.secondToHMS(censorPart.getStartTimeInSecond());
+                int[] stopTimeInHms = MediaPart.secondToHMS(censorPart.getStopTimeInSecond());
                 res += startTimeInHms[0].ToString() + ':' + startTimeInHms[1].ToString() + ':' + startTimeInHms[2].ToString() + "\n";
                 res += stopTimeInHms[0].ToString() + ':' + stopTimeInHms[1].ToString() + ':' + stopTimeInHms[2].ToString() + "\n";
             }
-            return res;
+            return res.Substring(0, res.Length - 1);
         }
     }
 }

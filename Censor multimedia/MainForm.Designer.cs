@@ -143,6 +143,7 @@
             this.importButton.TabIndex = 9;
             this.importButton.Text = "Import";
             this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.ImportButton_Click);
             // 
             // exportCnsButton
             // 
