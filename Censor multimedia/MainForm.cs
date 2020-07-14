@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -13,10 +14,10 @@ namespace Censor_multimedia
 {
     public partial class MainForm : Form
     {
-        private string srcFilePath = "", desFilePath = "";
+        private string srcFilePath = "", desFilePath = "", fileName = "";
         private int fileDuration;
         private bool fileChanged = false;
-        public static List<CensorPart> censorPartList = new List<CensorPart>();
+        public static List<MediaPart> censorPartList = new List<MediaPart>();
         public MainForm()
         {
             InitializeComponent();
@@ -50,18 +51,9 @@ namespace Censor_multimedia
                 WindowsMediaPlayer.URL = openFileDialog.FileName;
                 srcFilePath = openFileDialog.FileName;
                 srcTextBox.Text = srcFilePath;
-
-                desFilePath = getPathFromFullPath(srcFilePath);
+                desFilePath = getPathFromFullPath(srcFilePath) + fileName + "-Censored" + ".m3u8";
                 desTextBox.Text = desFilePath;
             }
-        }
-        static public void CurrMediaAvailable(string name)
-        {
-            int x = 0;
-        }
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void RefreshListBox()
@@ -82,6 +74,7 @@ namespace Censor_multimedia
                 importButton.Enabled = true;
                 exportButton.Enabled = true;
                 fileDuration = (int)WindowsMediaPlayer.currentMedia.duration;
+                fileName = WindowsMediaPlayer.currentMedia.name;
                 MessageBox.Show("File load, now you can add censor parts");
             }
             fileChanged = true;
@@ -95,9 +88,71 @@ namespace Censor_multimedia
                 CensorPartListBox.Items.RemoveAt(CensorPartListBox.SelectedIndex);
         }
 
+        private void ExportButton_Click(object sender, EventArgs e)
+        {
+            groupUnification(censorPartList);
+            List<MediaPart> viewablePartsList = createOppositeList(censorPartList, fileDuration);
+            string m3u8Text = viewablePartsListToM3U8file(viewablePartsList, srcFilePath, fileName, fileDuration);
+            File.WriteAllText(desFilePath, m3u8Text);
+        }
+
         private string getPathFromFullPath(string fullPath)
         {
             return fullPath.Substring(0, fullPath.LastIndexOf("\\")) + "\\";
+        }
+        private static List<MediaPart> groupUnification(List<MediaPart> censorPartsList)
+        {
+            censorPartList.Sort(delegate (MediaPart a, MediaPart b)
+            {
+                if (a.getStartTimeInSecond() == b.getStartTimeInSecond())
+                    return 0;
+                if (a.getStartTimeInSecond() < b.getStartTimeInSecond())
+                    return -1;
+                return 1;
+            });
+            for (int i = 0; i < censorPartList.Count; i++)
+            {
+                MediaPart partList = censorPartList[i];
+                int startTime = partList.getStartTimeInSecond();
+                int stopTime = partList.getStopTimeInSecond();
+                for (int j = i + 1; j < censorPartList.Count; j++)
+                {
+                    MediaPart tCensorPart = censorPartList[j];
+                    if (tCensorPart.getStartTimeInSecond() >= startTime && tCensorPart.getStartTimeInSecond() <= stopTime)
+                    {
+                        censorPartList.Insert(i, new MediaPart(startTime, Math.Max(stopTime, tCensorPart.getStopTimeInSecond())));
+                        censorPartList.RemoveAt(i + 1);
+                        censorPartList.RemoveAt(j);
+                    }
+                }
+            }
+            return censorPartList;
+        }
+        public static List<MediaPart> createOppositeList(List<MediaPart> censorPartList, int mediaLength)
+        {
+            List<MediaPart> viewablePartsList = new List<MediaPart>();
+            int curTime = 0;
+            foreach (var censorPart in censorPartList)
+            {
+                if (curTime != censorPart.getStartTimeInSecond())
+                    viewablePartsList.Add(new MediaPart(curTime, censorPart.getStartTimeInSecond()));
+                curTime = censorPart.getStopTimeInSecond();
+            }
+            if (curTime != mediaLength)
+                viewablePartsList.Add(new MediaPart(curTime, mediaLength));
+            return viewablePartsList;
+        }
+        public static string viewablePartsListToM3U8file(List<MediaPart> viewablePartsList, string filePath, string fileName, int fileDuration)
+        {
+            string res = "#EXTM3U\n#EXTINF:";
+            res += fileDuration.ToString() + ", " + fileName + "\n";
+            foreach (var viewablePart in viewablePartsList)
+            {
+                res += "#EXTVLCOPT:start-time=" + viewablePart.getStartTimeInSecond().ToString() + "\n";
+                res += "#EXTVLCOPT:stop-time=" + viewablePart.getStopTimeInSecond().ToString() + "\n";
+                res += filePath+"\n";
+            }
+            return res;
         }
     }
 }

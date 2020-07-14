@@ -21,7 +21,7 @@ namespace Censor_multimedia
         {
             this.duration = duration;
             InitializeComponent();
-            int[] hmsDuration = CensorPart.secondToHMS(duration);
+            int[] hmsDuration = MediaPart.secondToHMS(duration);
             startHourNumericUpDown.Maximum = stopHourNumericUpDown.Maximum = hmsDuration[0];
             startMinuteNumericUpDown.Maximum = stopMinuteNumericUpDown.Maximum = hmsDuration[1];
             startSecondNumericUpDown.Maximum = stopSecondNumericUpDown.Maximum = hmsDuration[2];
@@ -35,11 +35,11 @@ namespace Censor_multimedia
 
         private void AcceptButton_Click(object sender, EventArgs e)
         {
-            int startPointInSeconds = CensorPart.HMStoSeconds((int)startHourNumericUpDown.Value, (int)startMinuteNumericUpDown.Value, (int)startSecondNumericUpDown.Value);
-            int stopPointInSeconds = CensorPart.HMStoSeconds((int)stopHourNumericUpDown.Value, (int)stopMinuteNumericUpDown.Value, (int)stopSecondNumericUpDown.Value);
+            int startPointInSeconds = MediaPart.HMStoSeconds((int)startHourNumericUpDown.Value, (int)startMinuteNumericUpDown.Value, (int)startSecondNumericUpDown.Value);
+            int stopPointInSeconds = MediaPart.HMStoSeconds((int)stopHourNumericUpDown.Value, (int)stopMinuteNumericUpDown.Value, (int)stopSecondNumericUpDown.Value);
             if (checkIfBigger(startPointInSeconds, stopPointInSeconds))
             {
-                MainForm.censorPartList.Add(new CensorPart(startPointInSeconds, stopPointInSeconds));
+                MainForm.censorPartList.Add(new MediaPart(startPointInSeconds, stopPointInSeconds));
                 this.Close();
             }
             else

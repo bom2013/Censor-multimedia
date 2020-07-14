@@ -6,18 +6,25 @@ using System.Threading.Tasks;
 
 namespace Censor_multimedia
 {
-    public class CensorPart
+    public class MediaPart
     {
         private int startTimeInSecond, stopTimeInSecond;
-        public CensorPart(int startTimeInSecond, int stopTimeInSecond)
+        public MediaPart(int startTimeInSecond, int stopTimeInSecond)
         {
             this.startTimeInSecond = startTimeInSecond;
             this.stopTimeInSecond = stopTimeInSecond;
         }
-
+        public int getStartTimeInSecond()
+        {
+            return startTimeInSecond;
+        }
+        public int getStopTimeInSecond()
+        {
+            return stopTimeInSecond;
+        }
         public override string ToString()
         {
-            string startPointHMSstring =toHMS(secondToHMS(startTimeInSecond));
+            string startPointHMSstring = toHMS(secondToHMS(startTimeInSecond));
             string stopPointHMSstring = toHMS(secondToHMS(stopTimeInSecond));
             return startPointHMSstring + " - " + stopPointHMSstring;
         }
@@ -32,10 +39,12 @@ namespace Censor_multimedia
             res[2] = timeInSeconds;
             return res;
         }
+
         public static int HMStoSeconds(int hour, int minute, int seconds)
         {
             return hour * 3600 + minute * 60 + seconds;
         }
+
         public static string toHMS(int[] hmsPoint)
         {
             string hour = hmsPoint[0].ToString();
