@@ -57,6 +57,11 @@
             // 
             this.startSecondNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startSecondNumericUpDown.Location = new System.Drawing.Point(174, 12);
+            this.startSecondNumericUpDown.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.startSecondNumericUpDown.Name = "startSecondNumericUpDown";
             this.startSecondNumericUpDown.Size = new System.Drawing.Size(35, 23);
             this.startSecondNumericUpDown.TabIndex = 1;
@@ -65,6 +70,11 @@
             // 
             this.startMinuteNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startMinuteNumericUpDown.Location = new System.Drawing.Point(133, 12);
+            this.startMinuteNumericUpDown.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.startMinuteNumericUpDown.Name = "startMinuteNumericUpDown";
             this.startMinuteNumericUpDown.Size = new System.Drawing.Size(35, 23);
             this.startMinuteNumericUpDown.TabIndex = 2;
@@ -93,6 +103,11 @@
             // 
             this.stopMinuteNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stopMinuteNumericUpDown.Location = new System.Drawing.Point(133, 47);
+            this.stopMinuteNumericUpDown.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.stopMinuteNumericUpDown.Name = "stopMinuteNumericUpDown";
             this.stopMinuteNumericUpDown.Size = new System.Drawing.Size(35, 23);
             this.stopMinuteNumericUpDown.TabIndex = 10;
@@ -101,6 +116,11 @@
             // 
             this.stopSecondNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stopSecondNumericUpDown.Location = new System.Drawing.Point(174, 47);
+            this.stopSecondNumericUpDown.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.stopSecondNumericUpDown.Name = "stopSecondNumericUpDown";
             this.stopSecondNumericUpDown.Size = new System.Drawing.Size(35, 23);
             this.stopSecondNumericUpDown.TabIndex = 9;

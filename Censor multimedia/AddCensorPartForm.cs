@@ -23,10 +23,8 @@ namespace Censor_multimedia
             InitializeComponent();
             int[] hmsDuration = MediaPart.secondToHMS(duration);
             startHourNumericUpDown.Maximum = stopHourNumericUpDown.Maximum = hmsDuration[0];
-            startMinuteNumericUpDown.Maximum = stopMinuteNumericUpDown.Maximum = hmsDuration[1];
-            startSecondNumericUpDown.Maximum = stopSecondNumericUpDown.Maximum = hmsDuration[2];
         }
-        private bool checkIfBigger(int startPointInSeconds,int stoptPointInSeconds)
+        private bool checkIfBigger(int startPointInSeconds, int stoptPointInSeconds)
         {
             if (stoptPointInSeconds > startPointInSeconds)
                 return true;
@@ -39,8 +37,13 @@ namespace Censor_multimedia
             int stopPointInSeconds = MediaPart.HMStoSeconds((int)stopHourNumericUpDown.Value, (int)stopMinuteNumericUpDown.Value, (int)stopSecondNumericUpDown.Value);
             if (checkIfBigger(startPointInSeconds, stopPointInSeconds))
             {
-                MainForm.censorPartList.Add(new MediaPart(startPointInSeconds, stopPointInSeconds));
-                this.Close();
+                if (startPointInSeconds <= duration && stopPointInSeconds <= duration)
+                {
+                    MainForm.censorPartList.Add(new MediaPart(startPointInSeconds, stopPointInSeconds));
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Cant be bigger than media duration");
             }
             else
                 MessageBox.Show("Stop point must be bigger then start point");
