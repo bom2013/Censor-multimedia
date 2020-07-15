@@ -180,8 +180,8 @@ namespace Censor_multimedia
                 {
                     for (int i = 0; i < fileText.Length; i += 2)
                     {
-                        int[] startPointHMS = Array.ConvertAll(fileText[0].Split(':'), int.Parse);
-                        int[] stopPointHMS = Array.ConvertAll(fileText[1].Split(':'), int.Parse);
+                        int[] startPointHMS = Array.ConvertAll(fileText[i].Split(':'), int.Parse);
+                        int[] stopPointHMS = Array.ConvertAll(fileText[i + 1].Split(':'), int.Parse);
                         censorPartList.Add(new MediaPart(MediaPart.HMStoSeconds(startPointHMS[0], startPointHMS[1], startPointHMS[2]), MediaPart.HMStoSeconds(stopPointHMS[0], stopPointHMS[1], stopPointHMS[2])));
                     }
                     RefreshListBox();
