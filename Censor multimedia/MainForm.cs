@@ -84,7 +84,10 @@ namespace Censor_multimedia
             if (CensorPartListBox.SelectedIndex == -1)
                 SystemSounds.Hand.Play();
             else
-                CensorPartListBox.Items.RemoveAt(CensorPartListBox.SelectedIndex);
+            {
+                censorPartList.Remove((MediaPart)CensorPartListBox.Items[CensorPartListBox.SelectedIndex]);
+                RefreshListBox();
+            }
         }
 
         private void ExportButton_Click(object sender, EventArgs e)
