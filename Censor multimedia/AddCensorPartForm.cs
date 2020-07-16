@@ -13,10 +13,12 @@ namespace Censor_multimedia
     public partial class AddCensorPartForm : Form
     {
         private int duration = 0;
+
         public AddCensorPartForm()
         {
             InitializeComponent();
         }
+
         public AddCensorPartForm(int duration)
         {
             this.duration = duration;
@@ -24,6 +26,7 @@ namespace Censor_multimedia
             int[] hmsDuration = MediaPart.secondToHMS(duration);
             startHourNumericUpDown.Maximum = stopHourNumericUpDown.Maximum = hmsDuration[0];
         }
+
         private bool checkIfBigger(int startPointInSeconds, int stoptPointInSeconds)
         {
             if (stoptPointInSeconds > startPointInSeconds)
@@ -39,7 +42,13 @@ namespace Censor_multimedia
             {
                 if (startPointInSeconds <= duration && stopPointInSeconds <= duration)
                 {
-                    MainForm.censorPartList.Add(new MediaPart(startPointInSeconds, stopPointInSeconds));
+                    MainForm.censorPartList.Add(
+                        new CensorPart(
+                            startPointInSeconds,
+                            stopPointInSeconds,
+                            getLevel(),
+                            messageTextBox.Text
+                            ));
                     this.Close();
                 }
                 else
@@ -47,6 +56,15 @@ namespace Censor_multimedia
             }
             else
                 MessageBox.Show("Stop point must be bigger then start point");
+        }
+
+        private char getLevel()
+        {
+            if (levelARadioButton.Checked)
+                return 'A';
+            if (levelBRadioButton.Checked)
+                return 'B';
+            return 'C';
         }
     }
 }

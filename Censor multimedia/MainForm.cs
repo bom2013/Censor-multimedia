@@ -17,7 +17,8 @@ namespace Censor_multimedia
         private string srcFilePath = "", desFilePath = "", fileName = "";
         private int fileDuration;
         private bool fileChanged = false;
-        public static List<MediaPart> censorPartList = new List<MediaPart>();
+        public static List<CensorPart> censorPartList = new List<CensorPart>();
+        private char level = 'A';
         public MainForm()
         {
             InitializeComponent();
@@ -70,6 +71,8 @@ namespace Censor_multimedia
                 importButton.Enabled = true;
                 exportM3u8Button.Enabled = true;
                 exportCnsButton.Enabled = true;
+                levelBCheckBox.Enabled = true;
+                levelCCheckBox.Enabled = true;
                 fileDuration = (int)WindowsMediaPlayer.currentMedia.duration;
                 fileName = WindowsMediaPlayer.currentMedia.name;
                 desFilePath = getPathFromFullPath(srcFilePath) + fileName + "-Censored";
@@ -85,7 +88,7 @@ namespace Censor_multimedia
                 SystemSounds.Hand.Play();
             else
             {
-                censorPartList.Remove((MediaPart)CensorPartListBox.Items[CensorPartListBox.SelectedIndex]);
+                censorPartList.Remove((CensorPart)CensorPartListBox.Items[CensorPartListBox.SelectedIndex]);
                 RefreshListBox();
             }
         }
@@ -95,14 +98,15 @@ namespace Censor_multimedia
             try
             {
                 groupUnification(censorPartList);
-                List<MediaPart> viewablePartsList = createOppositeList(censorPartList, fileDuration);
+                List<CensorPart> filteredCensorPartList = filterCensorPartByLevel(censorPartList);
+                List<MediaPart> viewablePartsList = createOppositeList(filteredCensorPartList, fileDuration);
                 string m3u8Text = viewablePartsListToM3U8file(viewablePartsList, srcFilePath, fileName, fileDuration);
                 File.WriteAllText(desFilePath + ".m3u8", m3u8Text);
                 MessageBox.Show("The file has been successfully exported and save at: " + desFilePath + ".m3u8\nEnjoy!");
             }
             catch (Exception)
             {
-                MessageBox.Show("Error export to cns file");
+                MessageBox.Show("Error export to m3u8 file");
             }
         }
 
@@ -111,9 +115,9 @@ namespace Censor_multimedia
             return fullPath.Substring(0, fullPath.LastIndexOf("\\")) + "\\";
         }
 
-        private static List<MediaPart> groupUnification(List<MediaPart> censorPartsList)
+        private static List<CensorPart> groupUnification(List<CensorPart> censorPartsList)
         {
-            censorPartList.Sort(delegate (MediaPart a, MediaPart b)
+            censorPartList.Sort(delegate (CensorPart a, CensorPart b)
             {
                 if (a.getStartTimeInSecond() == b.getStartTimeInSecond())
                     return 0;
@@ -123,15 +127,18 @@ namespace Censor_multimedia
             });
             for (int i = 0; i < censorPartList.Count; i++)
             {
-                MediaPart partList = censorPartList[i];
-                int startTime = partList.getStartTimeInSecond();
-                int stopTime = partList.getStopTimeInSecond();
+                CensorPart censorPart = censorPartList[i];
+                int startTime = censorPart.getStartTimeInSecond();
+                int stopTime = censorPart.getStopTimeInSecond();
                 for (int j = i + 1; j < censorPartList.Count; j++)
                 {
-                    MediaPart tCensorPart = censorPartList[j];
+                    CensorPart tCensorPart = censorPartList[j];
                     if (tCensorPart.getStartTimeInSecond() >= startTime && tCensorPart.getStartTimeInSecond() <= stopTime)
                     {
-                        censorPartList.Insert(i, new MediaPart(startTime, Math.Max(stopTime, tCensorPart.getStopTimeInSecond())));
+                        censorPartList.Insert(i, new CensorPart(startTime,
+                            Math.Max(stopTime, tCensorPart.getStopTimeInSecond()),
+                            CensorPart.getMaxLevel(censorPart.getLevel(), tCensorPart.getLevel()),
+                            censorPart.getMessage() + ", " + tCensorPart.getMessage()));
                         censorPartList.RemoveAt(i + 1);
                         censorPartList.RemoveAt(j);
                     }
@@ -155,7 +162,7 @@ namespace Censor_multimedia
             }
         }
 
-        public static List<MediaPart> createOppositeList(List<MediaPart> censorPartList, int mediaLength)
+        public static List<MediaPart> createOppositeList(List<CensorPart> censorPartList, int mediaLength)
         {
             List<MediaPart> viewablePartsList = new List<MediaPart>();
             int curTime = 0;
@@ -178,11 +185,18 @@ namespace Censor_multimedia
                 fileText = File.ReadAllText(openFileDialog.FileName).Split('\n');
                 try
                 {
-                    for (int i = 0; i < fileText.Length; i += 2)
+                    for (int i = 0; i < fileText.Length; i += 4)
                     {
                         int[] startPointHMS = Array.ConvertAll(fileText[i].Split(':'), int.Parse);
                         int[] stopPointHMS = Array.ConvertAll(fileText[i + 1].Split(':'), int.Parse);
-                        censorPartList.Add(new MediaPart(MediaPart.HMStoSeconds(startPointHMS[0], startPointHMS[1], startPointHMS[2]), MediaPart.HMStoSeconds(stopPointHMS[0], stopPointHMS[1], stopPointHMS[2])));
+                        char level = fileText[i + 2][0];
+                        string message = fileText[i + 3];
+                        censorPartList.Add(new CensorPart(
+                            MediaPart.HMStoSeconds(startPointHMS[0], startPointHMS[1], startPointHMS[2]),
+                            MediaPart.HMStoSeconds(stopPointHMS[0], stopPointHMS[1], stopPointHMS[2]),
+                            level,
+                            message
+                            ));
                     }
                     RefreshListBox();
                     MessageBox.Show("The cns file was successfully imported");
@@ -192,6 +206,12 @@ namespace Censor_multimedia
                     MessageBox.Show("Error importing from file");
                 }
             }
+        }
+
+        private void LevelCCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (levelCCheckBox.Checked)
+                levelBCheckBox.Checked = true;
         }
 
         public static string viewablePartsListToM3U8file(List<MediaPart> viewablePartsList, string filePath, string fileName, int fileDuration)
@@ -207,7 +227,17 @@ namespace Censor_multimedia
             return res;
         }
 
-        public static string censorPartsListToCnsFile(List<MediaPart> censorPartList)
+        private void LevelCheckBox_Click(object sender, EventArgs e)
+        {
+            if (levelCCheckBox.Checked)
+                level = 'C';
+            else if (levelBCheckBox.Checked)
+                level = 'B';
+            else
+                level = 'A';
+        }
+
+        public static string censorPartsListToCnsFile(List<CensorPart> censorPartList)
         {
             string res = "";
             foreach (var censorPart in censorPartList)
@@ -216,8 +246,21 @@ namespace Censor_multimedia
                 int[] stopTimeInHms = MediaPart.secondToHMS(censorPart.getStopTimeInSecond());
                 res += startTimeInHms[0].ToString() + ':' + startTimeInHms[1].ToString() + ':' + startTimeInHms[2].ToString() + "\n";
                 res += stopTimeInHms[0].ToString() + ':' + stopTimeInHms[1].ToString() + ':' + stopTimeInHms[2].ToString() + "\n";
+                res += censorPart.getLevel() + "\n";
+                res += censorPart.getMessage() + "\n";
             }
             return res.Substring(0, res.Length - 1);
+        }
+
+        private List<CensorPart> filterCensorPartByLevel(List<CensorPart> censorPartList)
+        {
+            List<CensorPart> resList = new List<CensorPart>();
+            foreach (var censorPart in censorPartList)
+            {
+                if (CensorPart.isLevelbiggerOrEqualThan(censorPart.getLevel(), level))
+                    resList.Add(censorPart);
+            }
+            return resList;
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddCensorPartForm));
             this.startHourNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.startSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.startMinuteNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -37,6 +38,10 @@
             this.stopSecondNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.stopHourNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.acceptButton = new System.Windows.Forms.Button();
+            this.messageTextBox = new System.Windows.Forms.TextBox();
+            this.levelARadioButton = new System.Windows.Forms.RadioButton();
+            this.levelCRadioButton = new System.Windows.Forms.RadioButton();
+            this.levelBRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.startHourNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.startSecondNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.startMinuteNumericUpDown)).BeginInit();
@@ -47,108 +52,107 @@
             // 
             // startHourNumericUpDown
             // 
-            this.startHourNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startHourNumericUpDown.Location = new System.Drawing.Point(92, 12);
+            resources.ApplyResources(this.startHourNumericUpDown, "startHourNumericUpDown");
             this.startHourNumericUpDown.Name = "startHourNumericUpDown";
-            this.startHourNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.startHourNumericUpDown.TabIndex = 0;
             // 
             // startSecondNumericUpDown
             // 
-            this.startSecondNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startSecondNumericUpDown.Location = new System.Drawing.Point(174, 12);
+            resources.ApplyResources(this.startSecondNumericUpDown, "startSecondNumericUpDown");
             this.startSecondNumericUpDown.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.startSecondNumericUpDown.Name = "startSecondNumericUpDown";
-            this.startSecondNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.startSecondNumericUpDown.TabIndex = 1;
             // 
             // startMinuteNumericUpDown
             // 
-            this.startMinuteNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startMinuteNumericUpDown.Location = new System.Drawing.Point(133, 12);
+            resources.ApplyResources(this.startMinuteNumericUpDown, "startMinuteNumericUpDown");
             this.startMinuteNumericUpDown.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.startMinuteNumericUpDown.Name = "startMinuteNumericUpDown";
-            this.startMinuteNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.startMinuteNumericUpDown.TabIndex = 2;
             // 
             // StartPointLabel
             // 
-            this.StartPointLabel.AutoSize = true;
-            this.StartPointLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StartPointLabel.Location = new System.Drawing.Point(5, 14);
+            resources.ApplyResources(this.StartPointLabel, "StartPointLabel");
             this.StartPointLabel.Name = "StartPointLabel";
-            this.StartPointLabel.Size = new System.Drawing.Size(81, 17);
-            this.StartPointLabel.TabIndex = 3;
-            this.StartPointLabel.Text = "Start point: ";
             // 
             // StopPointLabel
             // 
-            this.StopPointLabel.AutoSize = true;
-            this.StopPointLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.StopPointLabel.Location = new System.Drawing.Point(5, 49);
+            resources.ApplyResources(this.StopPointLabel, "StopPointLabel");
             this.StopPointLabel.Name = "StopPointLabel";
-            this.StopPointLabel.Size = new System.Drawing.Size(80, 17);
-            this.StopPointLabel.TabIndex = 7;
-            this.StopPointLabel.Text = "Stop point: ";
             // 
             // stopMinuteNumericUpDown
             // 
-            this.stopMinuteNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopMinuteNumericUpDown.Location = new System.Drawing.Point(133, 47);
+            resources.ApplyResources(this.stopMinuteNumericUpDown, "stopMinuteNumericUpDown");
             this.stopMinuteNumericUpDown.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.stopMinuteNumericUpDown.Name = "stopMinuteNumericUpDown";
-            this.stopMinuteNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.stopMinuteNumericUpDown.TabIndex = 10;
             // 
             // stopSecondNumericUpDown
             // 
-            this.stopSecondNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopSecondNumericUpDown.Location = new System.Drawing.Point(174, 47);
+            resources.ApplyResources(this.stopSecondNumericUpDown, "stopSecondNumericUpDown");
             this.stopSecondNumericUpDown.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.stopSecondNumericUpDown.Name = "stopSecondNumericUpDown";
-            this.stopSecondNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.stopSecondNumericUpDown.TabIndex = 9;
             // 
             // stopHourNumericUpDown
             // 
-            this.stopHourNumericUpDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopHourNumericUpDown.Location = new System.Drawing.Point(92, 47);
+            resources.ApplyResources(this.stopHourNumericUpDown, "stopHourNumericUpDown");
             this.stopHourNumericUpDown.Name = "stopHourNumericUpDown";
-            this.stopHourNumericUpDown.Size = new System.Drawing.Size(35, 23);
-            this.stopHourNumericUpDown.TabIndex = 8;
             // 
             // acceptButton
             // 
-            this.acceptButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.acceptButton.Location = new System.Drawing.Point(12, 76);
+            resources.ApplyResources(this.acceptButton, "acceptButton");
             this.acceptButton.Name = "acceptButton";
-            this.acceptButton.Size = new System.Drawing.Size(197, 34);
-            this.acceptButton.TabIndex = 11;
-            this.acceptButton.Text = "Okay";
             this.acceptButton.UseVisualStyleBackColor = true;
             this.acceptButton.Click += new System.EventHandler(this.AcceptButton_Click);
             // 
+            // messageTextBox
+            // 
+            resources.ApplyResources(this.messageTextBox, "messageTextBox");
+            this.messageTextBox.Name = "messageTextBox";
+            // 
+            // levelARadioButton
+            // 
+            resources.ApplyResources(this.levelARadioButton, "levelARadioButton");
+            this.levelARadioButton.Checked = true;
+            this.levelARadioButton.Name = "levelARadioButton";
+            this.levelARadioButton.TabStop = true;
+            this.levelARadioButton.UseVisualStyleBackColor = true;
+            // 
+            // levelCRadioButton
+            // 
+            resources.ApplyResources(this.levelCRadioButton, "levelCRadioButton");
+            this.levelCRadioButton.Name = "levelCRadioButton";
+            this.levelCRadioButton.TabStop = true;
+            this.levelCRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // levelBRadioButton
+            // 
+            resources.ApplyResources(this.levelBRadioButton, "levelBRadioButton");
+            this.levelBRadioButton.Name = "levelBRadioButton";
+            this.levelBRadioButton.TabStop = true;
+            this.levelBRadioButton.UseVisualStyleBackColor = true;
+            // 
             // AddCensorPartForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AcceptButton = this.acceptButton;
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(224, 120);
+            this.Controls.Add(this.levelBRadioButton);
+            this.Controls.Add(this.levelCRadioButton);
+            this.Controls.Add(this.levelARadioButton);
+            this.Controls.Add(this.messageTextBox);
             this.Controls.Add(this.acceptButton);
             this.Controls.Add(this.stopMinuteNumericUpDown);
             this.Controls.Add(this.stopSecondNumericUpDown);
@@ -158,8 +162,10 @@
             this.Controls.Add(this.startMinuteNumericUpDown);
             this.Controls.Add(this.startSecondNumericUpDown);
             this.Controls.Add(this.startHourNumericUpDown);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "AddCensorPartForm";
-            this.Text = "Add censor part";
             ((System.ComponentModel.ISupportInitialize)(this.startHourNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startSecondNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startMinuteNumericUpDown)).EndInit();
@@ -182,5 +188,9 @@
         private System.Windows.Forms.NumericUpDown stopSecondNumericUpDown;
         private System.Windows.Forms.NumericUpDown stopHourNumericUpDown;
         private System.Windows.Forms.Button acceptButton;
+        private System.Windows.Forms.TextBox messageTextBox;
+        private System.Windows.Forms.RadioButton levelARadioButton;
+        private System.Windows.Forms.RadioButton levelCRadioButton;
+        private System.Windows.Forms.RadioButton levelBRadioButton;
     }
 }

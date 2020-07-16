@@ -9,19 +9,23 @@ namespace Censor_multimedia
     public class MediaPart
     {
         private int startTimeInSecond, stopTimeInSecond;
+
         public MediaPart(int startTimeInSecond, int stopTimeInSecond)
         {
             this.startTimeInSecond = startTimeInSecond;
             this.stopTimeInSecond = stopTimeInSecond;
         }
+
         public int getStartTimeInSecond()
         {
             return startTimeInSecond;
         }
+
         public int getStopTimeInSecond()
         {
             return stopTimeInSecond;
         }
+
         public override string ToString()
         {
             string startPointHMSstring = toHMS(secondToHMS(startTimeInSecond));
