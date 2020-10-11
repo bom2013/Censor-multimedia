@@ -9,7 +9,7 @@ The software allows you to censor video files
 # How its work?
 ## Overall?  
 You upload a video to the software, choose which sections to censor and the software releases a file in which the sections are censored  
-![General diagram](https://github.com/bom2013/Censor-multimedia/blob/master/0.png?raw=true)  
+![General diagram](https://github.com/bom2013/Censor-multimedia/blob/master/images/0.PNG?raw=true)  
 Yes, as you hear, it's that simple :)
 ## And in detail?
 1. The user uploads the video to the software
@@ -20,7 +20,7 @@ Then there are 2 options:
 1. Export to a video file (this is a m3u8 file, ie a playlist file that contains the relevant sections)
 2. Export the censorship snippets to the CNS file  
 
-![detail diagram](https://github.com/bom2013/Censor-multimedia/blob/master/1.png?raw=true)  
+![detail diagram](https://github.com/bom2013/Censor-multimedia/blob/master/images/1.PNG?raw=true)  
 
 # Contributions
 Issues, PRs and comments will be welcomed
