@@ -5,7 +5,11 @@ The software allows you to censor video files
 * Import censorship snippets from CNS files
 * Export censorship snippets to CNS files
 * Working with different video formats
-* Classification of censorship segments according to levels
+* Classification of censorship segments according to levels  
+# How to use?
+You have two options:
+1. Clone the repo and build the code
+2. Download [Realese folder](https://raw.githubusercontent.com/bom2013/Censor-multimedia/master/Release.zip)
 # How its work?
 ## Overall?  
 You upload a video to the software, choose which sections to censor and the software releases a file in which the sections are censored  
