@@ -9,7 +9,7 @@ The software allows you to censor video files
 # How to use?
 You have two options:
 1. Clone the repo and build the code
-2. Download [Realese folder](https://raw.githubusercontent.com/bom2013/Censor-multimedia/master/Release.zip)
+2. Download [Realese folder](https://raw.githubusercontent.com/bom2013/Censor-multimedia/master/Release.zip), unzip the file and run `censor-multimedia.exe`
 # How its work?
 ## Overall?  
 You upload a video to the software, choose which sections to censor and the software releases a file in which the sections are censored  
